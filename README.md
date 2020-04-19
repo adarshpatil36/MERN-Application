@@ -7,6 +7,7 @@ Server folder contains the backend code of the application in node integrated wi
 
 To Start server: (inside Server folder)
 ```
+npm install
 node server.js
 ```
 To Start application: (inside UI folder)
