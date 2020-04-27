@@ -13,13 +13,14 @@ export class SearchBar extends Component {
     onSearchHandleListener = (e) =>{
         console.log(e.target.value)
         if(e.charCode === 13){
-            this.fetchData(e.target.value);
+            this.fetchData(e);
         }
         this.setState({searchValue:e.target.value})
     }
-    fetchData = (searchValue) =>{
+    fetchData = (e) =>{
         if(this.state) {
-        fetch(`http://localhost:8080/api/search?location=${searchValue || this.state.searchValue}`)
+        let searchValue = e.type === 'click' ? this.state.searchValue : e.target.value;
+        fetch(`http://localhost:8080/api/search?location=${searchValue}`)
         .then(res => res.json())
         .then(data=> this.setState({data:data}))
         .catch(err => console.log("Error fetching data"))
@@ -33,6 +34,7 @@ export class SearchBar extends Component {
                     icon={{ name: 'search', circular: true, link: true }}
                     placeholder='Search By Location...'
                     onKeyPress = {this.onSearchHandleListener}
+                    onBlur= {this.onSearchHandleListener}
                 />
                 <Button onClick={this.fetchData} style={{margin:'20px'}}>Search</Button>
                 {this.state.data && <Data data={this.state.data}/>}
